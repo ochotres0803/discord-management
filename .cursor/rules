@@ -1,0 +1,30 @@
+# 業務改善システム - 開発ルール
+
+## プロジェクト概要
+業務改善のためのWebアプリケーション開発
+
+## 開発の進め方（重要ルール）
+1. **要件定義書と技術要件を先に固める**
+   - ユーザーが「OK」と言うまで実装は進めない
+   - 不明点があれば必ず質問する
+2. **このrulesファイルを作業前に必ず参照**
+3. **タスクのチェックリストで進捗を可視化**
+
+## 技術スタック
+- **フロントエンド**: Next.js 15 (App Router)
+- **スタイリング**: Tailwind CSS
+- **ORM**: Prisma
+- **データベース**: PostgreSQL
+- **インフラ**: Google Cloud (Cloud Run)
+
+## GitHubリポジトリ
+- URL: https://github.com/ochotres0803/discord-management
+- ブランチ戦略: main (本番), develop (開発), feature/* (機能開発)
+
+## 要件定義（未確定）
+※ ユーザーとの確認後に更新
+
+## コーディング規約
+- 日本語コメントを推奨
+- TypeScript strict mode
+- ESLint + Prettier でコード品質維持
