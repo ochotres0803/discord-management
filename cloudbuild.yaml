@@ -1,0 +1,109 @@
+# Google Cloud Build 設定ファイル
+# Web アプリと Discord Bot を別々のサービスとしてデプロイ
+
+steps:
+  # ========================================
+  # Web アプリのビルドとデプロイ
+  # ========================================
+  
+  # Docker イメージのビルド
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/web:$COMMIT_SHA'
+      - '-t'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/web:latest'
+      - '.'
+    id: 'build-web'
+
+  # Artifact Registry にプッシュ
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/web:$COMMIT_SHA'
+    id: 'push-web'
+    waitFor: ['build-web']
+
+  # Cloud Run にデプロイ
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'discord-management-web'
+      - '--image'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/web:$COMMIT_SHA'
+      - '--region'
+      - 'asia-northeast1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'NODE_ENV=production'
+      - '--set-secrets'
+      - 'DATABASE_URL=DATABASE_URL:latest,AUTH_SECRET=AUTH_SECRET:latest,DISCORD_CLIENT_ID=DISCORD_CLIENT_ID:latest,DISCORD_CLIENT_SECRET=DISCORD_CLIENT_SECRET:latest'
+    id: 'deploy-web'
+    waitFor: ['push-web']
+
+  # ========================================
+  # Discord Bot のビルドとデプロイ
+  # ========================================
+
+  # Bot Docker イメージのビルド
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/bot:$COMMIT_SHA'
+      - '-t'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/bot:latest'
+      - '-f'
+      - 'bot/Dockerfile'
+      - 'bot'
+    id: 'build-bot'
+
+  # Artifact Registry にプッシュ
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/bot:$COMMIT_SHA'
+    id: 'push-bot'
+    waitFor: ['build-bot']
+
+  # Cloud Run にデプロイ（常時起動）
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'discord-management-bot'
+      - '--image'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/bot:$COMMIT_SHA'
+      - '--region'
+      - 'asia-northeast1'
+      - '--platform'
+      - 'managed'
+      - '--no-allow-unauthenticated'
+      - '--min-instances'
+      - '1'
+      - '--set-env-vars'
+      - 'NODE_ENV=production'
+      - '--set-secrets'
+      - 'DATABASE_URL=DATABASE_URL:latest,DISCORD_BOT_TOKEN=DISCORD_BOT_TOKEN:latest,DISCORD_GUILD_ID=DISCORD_GUILD_ID:latest'
+    id: 'deploy-bot'
+    waitFor: ['push-bot']
+
+# ビルドイメージ
+images:
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/web:$COMMIT_SHA'
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/web:latest'
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/bot:$COMMIT_SHA'
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/discord-management/bot:latest'
+
+# タイムアウト設定
+timeout: 1800s
+
+# オプション
+options:
+  logging: CLOUD_LOGGING_ONLY

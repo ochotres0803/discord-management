@@ -1,4 +1,4 @@
-# Discord サーバー分析・管理システム - 開発ルール
+# Discord Analytics - 開発ルール
 
 ## 🎯 プロジェクト概要
 Discord サーバーの成長戦略を立てるための、メンバー動向・アクティビティ分析ダッシュボード
@@ -42,38 +42,49 @@ Discord サーバーの成長戦略を立てるための、メンバー動向・
 
 ---
 
-## 📦 フェーズ分け
+## 📦 フェーズ状況
 
-### Phase 1: MVP（必須）
-1. ✅ Discord Bot（データ収集）
-2. ✅ メンバー流入数ダッシュボード
-3. ✅ メッセージ数計測
-4. ✅ アクティブユーザー率（DAU/WAU/MAU）
+### Phase 1: MVP ✅ 完了
+1. ✅ プロジェクト初期セットアップ
+2. ✅ Prisma + PostgreSQL セットアップ
+3. ✅ Discord Bot 実装（データ収集）
+4. ✅ NextAuth.js 認証機能
+5. ✅ ダッシュボード画面
+6. ✅ メンバー分析画面
+7. ✅ アクティビティ分析画面
+8. ✅ デプロイ設定（Docker, Cloud Run）
 
-### Phase 2: 拡張（あったらいい）
-5. ⬜ タスク管理・共有
-6. ⬜ 業務連絡機能
+### Phase 2: 拡張機能（予定）
+- ⬜ タスク管理・共有
+- ⬜ 業務連絡機能
 
 ---
 
-## 📁 ディレクトリ構成（予定）
+## 📁 ディレクトリ構成
 
 ```
 /
-├── .cursor/
-│   └── rules           # このファイル
+├── .cursor/rules       # 開発ルール
 ├── docs/
 │   ├── requirements.md # 要件定義書
 │   └── technical-spec.md # 技術要件書
-├── src/
-│   ├── app/            # Next.js App Router
-│   ├── components/     # UIコンポーネント
-│   ├── lib/            # ユーティリティ
-│   └── server/         # サーバーサイドロジック
 ├── bot/                # Discord Bot
+│   ├── src/index.ts
+│   ├── package.json
+│   └── Dockerfile
 ├── prisma/
 │   └── schema.prisma   # DBスキーマ
-└── docker-compose.yml  # ローカル開発環境
+├── src/
+│   ├── app/            # Next.js App Router
+│   │   ├── api/        # API Routes
+│   │   ├── dashboard/  # ダッシュボード画面
+│   │   └── login/      # ログイン画面
+│   ├── auth/           # NextAuth 設定
+│   ├── components/     # UIコンポーネント
+│   └── lib/            # ユーティリティ
+├── Dockerfile          # Web アプリ用
+├── docker-compose.yml  # ローカル開発環境
+└── cloudbuild.yaml     # Cloud Build 設定
 ```
 
 ---
@@ -87,6 +98,28 @@ Discord サーバーの成長戦略を立てるための、メンバー動向・
 ## 📚 参照ドキュメント
 - 要件定義書: `docs/requirements.md`
 - 技術要件書: `docs/technical-spec.md`
+- README: `README.md`
+
+---
+
+## 🚀 開発コマンド
+
+```bash
+# ローカル開発
+docker-compose up -d          # DB起動
+npx prisma generate           # Prismaクライアント生成
+npx prisma db push            # DBスキーマ適用
+npm run dev                   # Webアプリ起動
+
+# Discord Bot
+cd bot && npm install && npm run dev
+
+# ビルド
+npm run build
+
+# デプロイ（Cloud Build）
+gcloud builds submit
+```
 
 ---
 
