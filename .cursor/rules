@@ -1,30 +1,93 @@
-# 業務改善システム - 開発ルール
+# Discord サーバー分析・管理システム - 開発ルール
 
-## プロジェクト概要
-業務改善のためのWebアプリケーション開発
+## 🎯 プロジェクト概要
+Discord サーバーの成長戦略を立てるための、メンバー動向・アクティビティ分析ダッシュボード
 
-## 開発の進め方（重要ルール）
-1. **要件定義書と技術要件を先に固める**
-   - ユーザーが「OK」と言うまで実装は進めない
-   - 不明点があれば必ず質問する
-2. **このrulesファイルを作業前に必ず参照**
-3. **タスクのチェックリストで進捗を可視化**
+### 対象サーバー
+- サーバー数: 1つ
+- 現在メンバー: 約300人 → 目標: 3,000人以上
+- 運営チーム: 3名 → 将来: 10名
 
-## 技術スタック
-- **フロントエンド**: Next.js 15 (App Router)
-- **スタイリング**: Tailwind CSS
-- **ORM**: Prisma
-- **データベース**: PostgreSQL
-- **インフラ**: Google Cloud (Cloud Run)
+---
 
-## GitHubリポジトリ
-- URL: https://github.com/ochotres0803/discord-management
-- ブランチ戦略: main (本番), develop (開発), feature/* (機能開発)
+## 📋 開発ルール（重要）
 
-## 要件定義（未確定）
-※ ユーザーとの確認後に更新
+### 1. 実装前の確認
+- **ユーザーが「OK」と言うまで実装は進めない**
+- 不明点があれば必ず質問する
+- このrulesファイルを作業前に必ず参照する
 
-## コーディング規約
+### 2. タスク管理
+- チェックリストで進捗を可視化
+- 完了したタスクは必ずマークする
+
+### 3. コーディング規約
 - 日本語コメントを推奨
-- TypeScript strict mode
+- TypeScript strict mode 必須
 - ESLint + Prettier でコード品質維持
+
+---
+
+## 🛠️ 技術スタック
+
+| カテゴリ | 技術 |
+|---------|------|
+| フロントエンド | Next.js 15 (App Router), TypeScript, Tailwind CSS |
+| UI | shadcn/ui, Recharts |
+| バックエンド | Next.js API Routes, Prisma |
+| Discord Bot | discord.js 14 |
+| データベース | PostgreSQL 15 |
+| インフラ | Google Cloud (Cloud Run, Cloud SQL) |
+| 認証 | NextAuth.js (Discord OAuth) |
+
+---
+
+## 📦 フェーズ分け
+
+### Phase 1: MVP（必須）
+1. ✅ Discord Bot（データ収集）
+2. ✅ メンバー流入数ダッシュボード
+3. ✅ メッセージ数計測
+4. ✅ アクティブユーザー率（DAU/WAU/MAU）
+
+### Phase 2: 拡張（あったらいい）
+5. ⬜ タスク管理・共有
+6. ⬜ 業務連絡機能
+
+---
+
+## 📁 ディレクトリ構成（予定）
+
+```
+/
+├── .cursor/
+│   └── rules           # このファイル
+├── docs/
+│   ├── requirements.md # 要件定義書
+│   └── technical-spec.md # 技術要件書
+├── src/
+│   ├── app/            # Next.js App Router
+│   ├── components/     # UIコンポーネント
+│   ├── lib/            # ユーティリティ
+│   └── server/         # サーバーサイドロジック
+├── bot/                # Discord Bot
+├── prisma/
+│   └── schema.prisma   # DBスキーマ
+└── docker-compose.yml  # ローカル開発環境
+```
+
+---
+
+## 🔗 リポジトリ情報
+- GitHub: https://github.com/ochotres0803/discord-management
+- ブランチ戦略: main → develop → feature/*
+
+---
+
+## 📚 参照ドキュメント
+- 要件定義書: `docs/requirements.md`
+- 技術要件書: `docs/technical-spec.md`
+
+---
+
+**最終更新日**: 2026-01-24
