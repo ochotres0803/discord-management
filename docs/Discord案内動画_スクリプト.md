@@ -1,6 +1,6 @@
 # Discord案内動画 スクリプト（英語）
 
-> 想定時間：1〜2分
+> 想定時間：2〜3分
 > 対象：海外の新規参加者
 
 ---
@@ -70,7 +70,64 @@ I'd like to order:
 
 ---
 
-### 5. デリバリーレビュー（20秒）
+### 5. 送料・発送方法（20秒）
+
+**映像**: テキストを画面に表示
+
+**ナレーション**:
+> Shipping is a flat rate of 5,000 yen.
+> We ship via FedEx or DHL.
+
+**画面に表示**:
+- Shipping: ¥5,000 (flat rate)
+- Carriers: FedEx / DHL
+
+---
+
+### 6. 支払い方法（20秒）
+
+**映像**: Wise・PayPalのロゴを表示
+
+**ナレーション**:
+> We recommend paying via Wise. No fees.
+> PayPal is also available, but there's a 5% fee.
+
+**画面に表示**:
+- Wise: 0% fee (Recommended)
+- PayPal: 5% fee
+
+---
+
+### 7. 発送に必要な情報（20秒）
+
+**映像**: 必要情報のリストを表示
+
+**ナレーション**:
+> To ship your order, we'll need:
+> - Your name
+> - Phone number
+> - Email address
+> - Shipping address
+>
+> If you need any special details on the invoice, just let us know.
+
+**画面に表示**:
+```
+Required Information:
+- Name
+- Phone Number
+- Email Address
+- Address
+
+Optional:
+- State Tax ID
+- FedEx Account Number
+- Custom Invoice Details
+```
+
+---
+
+### 8. デリバリーレビュー（20秒）
 
 **映像**: デリバリーレビューチャンネルを表示
 
@@ -85,7 +142,7 @@ I'd like to order:
 
 ---
 
-### 6. クロージング（10秒）
+### 9. クロージング（10秒）
 
 **映像**: チケットボタンに戻る
 
@@ -111,6 +168,15 @@ A dedicated sales representative will assist you here.
 
 Just tell us the product name and the quantity you want.
 We'll send you a quote right away.
+
+Shipping is a flat rate of 5,000 yen.
+We ship via FedEx or DHL.
+
+We recommend paying via Wise. No fees.
+PayPal is also available, but there's a 5% fee.
+
+To ship your order, we'll need your name, phone number, email address, and shipping address.
+If you need any special details on the invoice, just let us know.
 
 Want to see our track record?
 Check out the Delivery Reviews channel.
